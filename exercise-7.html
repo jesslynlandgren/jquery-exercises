@@ -42,20 +42,20 @@
             }
         })
 
-        $('.delete').click(function(){
+        $('#todo-list').on('click', '.delete', function(){
             if ($(this).siblings('#edit-task').is(':visible')){
                 return;
             }
             $(this).closest('li').remove();
         })
-        $('.done').click(function(){
+        $('#todo-list').on('click', '.done', function(){
             if ($(this).siblings('#edit-task').is(':visible')){
                 return;
             }
             $(this).siblings('#todo-item').toggleClass('strike');
 
         })
-        $('.edit').click(function(){
+        $('#todo-list').on('click', '.edit', function(){
             $(this).siblings('#edit-task').toggle()
         })
 
