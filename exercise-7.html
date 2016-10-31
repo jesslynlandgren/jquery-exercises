@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Todo List Exercise</title>
+    <!-- Fonts -->
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
+    <!-- Bootstrap CSS-->
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/lumen/bootstrap.min.css">
+    <script src="jquery.js"></script>
+    <script>
+    /*
+    Make a Todo List
+
+    0. Make it so that after entering the task description, in the text field and clicking the "Add Task" button, a new task appears inside the element with the id todo-list.
+    1. the ability to remove tasks (add an x button)
+    2. the ability to check off tasks - strikes them out wo removing (add a checkbox)
+    3. the ability to delete a task
+    4. the ability to edit an existing task
+
+    */
+
+    $(document).ready(function () {
+
+        var remove = '<i class="fa fa-times delete" aria-hidden="true"></i>';
+        var check = '<i class="fa fa-check done" aria-hidden="true"></i>';
+        var edit = '<i class="fa fa-pencil-square-o edit" aria-hidden="true"></i>';
+
+        var editElem = `<div id="edit-task" class="input-group"><input id="changetask" class="form-control" type="text" name="changetask"><span class="input-group-btn"><button id="save-button" class="btn btn-success" type="button">Save Task</button></span><span class="input-group-btn"><button id="cancel-button" class="btn btn-danger" type="button">Cancel</button></span></div>`;
+
+        var space = ' ';
+
+        $('#edit-task').hide();
+
+        $('#add-button').click(function(){
+            var newItem = `<span id="todo-item" class="todo-item">` + $('#description').val() + '</span>'
+            $('#todo-list').append('<li>' + remove + space + check + space + edit + space + newItem + editElem + '</li')
+            $('#description').val('')
+            if ($('li:last-child').children('#edit-task').is(':visible')) {
+                $('li:last-child').children('#edit-task').toggle()
+            }
+        })
+
+        $('.delete').click(function(){
+            if ($(this).siblings('#edit-task').is(':visible')){
+                return;
+            }
+            $(this).closest('li').remove();
+        })
+        $('.done').click(function(){
+            if ($(this).siblings('#edit-task').is(':visible')){
+                return;
+            }
+            $(this).siblings('#todo-item').toggleClass('strike');
+
+        })
+        $('.edit').click(function(){
+            $(this).siblings('#edit-task').toggle()
+        })
+
+        $('#save-button').click(function(){
+            var savedTask = $(this).closest('#edit-task').children('#changetask').val()
+            $(this).closest('li').children('.todo-item').text(savedTask)
+            $(this).closest('#edit-task').toggle()
+        })
+        $('#cancel-button').click(function(){
+            $(this).closest('#edit-task').toggle()
+        })
+    });
+
+    </script>
+    <style>
+    #wrapper {
+      max-width: 600px;
+      margin: auto;
+      padding: 50px 0 0 0;
+    }
+
+    #description, #search, #todo-list {
+      font-size: 1.5em;
+    }
+
+
+    #todo-list {
+        margin-top: 50px;
+        list-style: none;
+    }
+
+    .strike {
+        text-decoration: line-through;
+    }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+        <h1 class="text-info">SJ ToDo List</h1>
+        <div class="input-group">
+            <input id="description" class="form-control" type="text" name="description">
+            <span class="input-group-btn">
+                <button id="add-button" class="btn btn-info" type="button">Add Task</button>
+            </span>
+        </div>
+
+        <ul id="todo-list">
+            <li>
+                <i id="delete" class="fa fa-times delete" aria-hidden="true"></i>
+                <i id="done" class="fa fa-check done" aria-hidden="true"></i>
+                <i id="edit" class="fa fa-pencil-square-o edit" aria-hidden="true"></i>
+                <span id="todo-item" class="todo-item">Feed the cat</span>
+                <div id = "edit-task" class="input-group">
+                    <input id="changetask" class="form-control" type="text" name="changetask">
+                    <span class="input-group-btn">
+                        <button id="save-button" class="btn btn-success" type="button">Save Task</button>
+                    </span>
+                    <span class="input-group-btn">
+                        <button id="cancel-button" class="btn btn-danger" type="button">Cancel</button>
+                    </span>
+                </div>
+            </li>
+      </ul>
+    </div>
+  </body>
+</html>
